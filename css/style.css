@@ -110,3 +110,9 @@ a.watch-now:hover {text-decoration: none;}
 .subscr_wind{display: none; margin: 10px 30%; text-align:center;}
 .subscr_wind .button {margin: 10px 30%;}
 #buy{margin: 10px 20%; }
+.subscr_wind img { border: none;}
+.content_control {
+    line-height: 25px;
+    width: 75%;
+    margin: 0 auto;
+}

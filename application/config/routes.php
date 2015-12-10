@@ -40,6 +40,11 @@
 
 $route['default_controller'] = "main";
 $route['404_override'] = '';
+$route['admin/login'] = 'admin/lunit/login';
+$route['admin/logout'] = 'admin/lunit/logout';
+//$route['admin/showdate'] = 'admin/lunit/showdate';
+$route['admin'] = 'admin/lunit';
+
 
 
 /* End of file routes.php */
