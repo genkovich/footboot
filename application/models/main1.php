@@ -21,6 +21,7 @@ class Main1 extends CI_Model {
     public $data;
 
     function __construct() {
+        parent::__construct();
         $this->url = "http://www.telegraph.co.uk/sport/football/competitions/premier-league/rss";
     }
 

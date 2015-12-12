@@ -49,12 +49,17 @@ h1#logo a {display: block; background: url(images/logo.gif) no-repeat 0 0; width
 #heading-box {position: absolute; top: 9px; left: 235px;}
 #heading-box-cnt {background: url(images/heading-box.png) no-repeat 0 0; background-size: 710px 390px; width: 719px; height: 390px; padding-top: 5px; padding-left: 4px;}
 .featured-main {position: relative; width: 440px; float: left;}
-.game-day {margin-top: 30%;}
+.game-day {margin-top: 20%;}
 .featured-main h2 {font-size: 36px; color: #9fea00; text-align: center;}
 .featured-main .button {
+        text-align: center;
+    width: 100px;
+    height: 20px;
+    cursor: pointer;
     padding: 10px 10px 5px 10px;
     margin: 0px;
     background-image: none;
+    color: black;
     font-weight: bold;
     margin: 20px 37%;
     background: -webkit-gradient(linear, 0 0, 0 100%, from(gainsboro), to(gray));
@@ -116,3 +121,4 @@ a.watch-now:hover {text-decoration: none;}
     width: 75%;
     margin: 0 auto;
 }
+#payment {display: none; text-align: center;}
