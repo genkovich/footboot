@@ -16,13 +16,18 @@ class Lunit extends CI_Controller {
 
     function index() {
         $game = $this->adm->getGame();
-
+        $video = $this->adm->getVideo();
+        $data['video1'] = $video->video1;
+        $data['video2'] = $video->video2;
+        $data['video3'] = $video->video3;
+        $data['video4'] = $video->video4;
         $data['team1']   = $game->team1;
         $data['team2']   = $game->team2;
-        $data['hours']   = '22';
-        $data['minutes'] = '45';
+        $data['timeend'] = $game->datetime;
+        $data['hours']   = '';
+        $data['minutes'] = '';
         $data['price']   = $game->price;
-        $data['show'] = $game->show == 1 ? 'checked' : '';
+        $data['show']    = $game->show == 1 ? 'checked' : '';
         $this->load->view('admin', $data);
     }
 
@@ -43,9 +48,16 @@ class Lunit extends CI_Controller {
         $this->db->join('game', 'game.id = email.game');
         $this->db->where('date > ', $date1);
         $this->db->where('date < ', $date2);
+        $this->db->where('status ', 1);
         $query = $this->db->get();
         //var_dump($query->result());
         echo "<table cellspacing='0' border='1' cellpadding='0'>";
+        echo "<thead>"
+        . "<th>Email</th>"
+                . "<th>Date</th>"
+                . "<th>Game</th>"
+                . "<th>Price</th>"
+        . "</thead>";
         foreach ($query->result() as $row) {
             echo "<tr>"
             . "<td> $row->email</td>"
@@ -54,22 +66,62 @@ class Lunit extends CI_Controller {
             . "<td> $row->price</td>"
             . "</tr>";
         }
-         echo "</table>";
+        echo "</table>";
     }
 
-    function save(){
-        if(isset($_POST['team1']) && isset($_POST['team2']) && isset($_POST['price'])){
-            $team1 = $_POST['team1'];
-            $team2 = $_POST['team2'];
-            $price = $_POST['price'];
-            $show = $_POST['show'];
-            $res = $this->adm->save($team1, $team2, $price, $show);
+    function save() {
+        if (isset($_POST['team1']) && isset($_POST['team2']) && isset($_POST['price'])) {
+            $team1   = $_POST['team1'];
+            $team2   = $_POST['team2'];
+            $price   = $_POST['price'];
+            $show    = $_POST['show'];
+            $timeend = $_POST['timeend'];
+            $res     = $this->adm->save($team1, $team2, $price, $show, $timeend);
             if ($res) {
                 echo 'Сохранено';
-
             }
         }
-
     }
 
+    function newGame(){
+        if (isset($_POST['team1']) && isset($_POST['team2']) && isset($_POST['price'])) {
+            $team1   = $_POST['team1'];
+            $team2   = $_POST['team2'];
+            $price   = $_POST['price'];
+            $show    = $_POST['show'];
+            $timeend = $_POST['timeend'];
+            $res     = $this->adm->newGame($team1, $team2, $price, $show, $timeend);
+            if ($res) {
+                echo 'Добавлено';
+            }
+        }
+    }
+
+    function savevideo(){
+        for($i = 1; $i <= 4; $i++) {
+            $vid[] = $_POST['video'.$i];
+        }
+
+        $this->adm->saveVideo($vid);
+    }
+
+    function newletter(){
+       $emails = $this->db->select('email')->from('email')->group_by('email')->get()->result();
+       foreach ($emails as $email){
+           $data['email'][] = $email->email;
+       }
+        $this->load->view('letter', $data);
+    }
+
+    function sendmess(){
+        $adres = explode(",", $_POST['opt']);
+        foreach($adres as $adr){
+        $to    = $adr;
+        $title = $_POST['subj'];
+        $all   = $_POST['mess'];
+        $e     = mail($to, $title, $all, 'From: genkovich@mail.ru');//, " -fnoreply@footboot.org"); //'From: genkovich@mail.ru');// " -fnoreply@footboot.org");
+        var_dump($e);
+        }
+        var_dump($_POST);
+    }
 }

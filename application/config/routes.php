@@ -38,14 +38,16 @@
 |
 */
 
-$route['default_controller'] = "main";
-$route['404_override'] = '';
+
 $route['admin/login'] = 'admin/lunit/login';
 $route['admin/logout'] = 'admin/lunit/logout';
+$route['admin/newletter'] = 'admin/lunit/newletter';
 //$route['admin/showdate'] = 'admin/lunit/showdate';
+
+$route['player/video'] = 'player/video/$1';
 $route['admin'] = 'admin/lunit';
-
-
+$route['default_controller'] = "main";
+$route['404_override'] = '';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
