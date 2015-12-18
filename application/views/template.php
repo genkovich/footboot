@@ -12,92 +12,9 @@
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <!--[if lte IE 6]><link rel="stylesheet" href="css/ie6.css" type="text/css" media="all" /><![endif]-->
         <script>
-            var valid;
-            $(document).ready(function () {
-                $('#email').blur(function () {
-                    if ($(this).val() != '') {
-                        var pattern = /^([a-z0-9_\.-])+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i;
-                        if (pattern.test($(this).val())) {
-                            $(this).css({'border': '1px solid #569b44'});
-                            $('#valid').text('email введен верно');
-                            valid = 1;
-                        } else {
-                            $(this).css({'border': '1px solid #ff0000'});
-                            $('#valid').text('email введен не верно');
-                        }
-                    } else {
-                        $(this).css({'border': '1px solid #ff0000'});
-                        $('#valid').text('Поле email не должно быть пустым');
-                    }
-                });
-
-
-
-            });
-            function subscr_wind() {
-                $("#podp").hide();
-                $(".subscr_wind").show();
+            function cont(){
+                $('#contacts').toggle();
             }
-            ;
-
-            function send() {
-                if (valid == 1) {
-                    var msg = $('#email').val();
-                    $.ajax({
-                        type: 'POST',
-                        url: 'index.php/payment/status/',
-                        data: 'email=' + msg,
-                        beforeSend: function () {
-
-                            $('.subscr_wind').html("<img src='/css/images/loader.GIF' />");
-                        },
-                        success: function (data) {
-                            $('.featured-main').html(data);
-                            $('.featured-side').html(' ');
-
-
-                        },
-                        error: function (xhr, status, error) {
-                            alert(xhr.responseText + '|\n' + status + '|\n' + error);
-                        }
-
-                    });
-                } else {
-                    $('#email').css({'border': '1px solid #ff0000'});
-                    $('#valid').text('Введите корректный email');
-                }
-            }
-            ;
-
-            function buy() {
-                var msg = $('#email').val();
-                if (valid == 1) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'index.php/payment/buy/',
-                        data: 'email=' + msg,
-                        beforeSend: function () {
-
-                            $('.subscr_wind').html("<img src='/css/images/loader.GIF' />");
-                        },
-                        success: function (data) {
-                            $('.subscr_wind').html(data);
-                            $('#buy').hide();
-                            $('#payment').show();
-                            //$('#idmail').val(msg);
-
-                        },
-                        error: function (xhr, status, error) {
-                            alert(xhr.responseText + '|\n' + status + '|\n' + error);
-                        }
-
-                    });
-                } else {
-                    $('#email').css({'border': '1px solid #ff0000'});
-                    $('#valid').text('Введите корректный email');
-                }
-            }
-            ;
         </script>
     </head>
     <body>
@@ -109,25 +26,6 @@
                 <!-- End Logo -->
             </div>
         </div>
-        <!-- End Header -->
-
-        <!-- Navigation -->
-        <!--        <div id="navigation">
-                    <div class="shell">
-                        <div class="cl">&nbsp;</div>
-                        <ul>
-                            <li><a href="#">Новости</a></li>
-                            <li><a href="#">Галерея</a></li>
-                            <li><a href="#">О нас</a></li>
-                            <li><a href="#">Форум</a></li>
-                            <li><a href="#">Расписание</a></li>
-                        </ul>
-                        <div class="cl">&nbsp;</div>
-                    </div>
-                </div>-->
-        <!-- End Navigation -->
-
-        <!-- Heading -->
         <div id="heading">
 
             <div class="shell">
@@ -137,16 +35,16 @@
                     <!-- Sub nav -->
                     <div id="side-nav">
                         <div class="grey-box">
-                        <h3><a href="#"><?php echo $video['titles'][0] ?></a></h3>
-                        <a href="#"><?php echo '<iframe src="' . $video['links'][0] . '" type="text/html" width="200" height="130" frameborder="0"></iframe>'; ?></a>
+                            <h3><a href="#"><?php echo $video['titles'][0] ?></a></h3>
+                            <a href="#"><?php echo '<iframe src="' . $video['links'][0] . '" type="text/html" width="200" height="130" frameborder="0"></iframe>'; ?></a>
 
-                    </div>
-                    <div class="grey-box">
-                        <h3><a href="#"><?php echo $video['titles'][1] ?></a></h3>
-                        <a href="#"><?php echo '<iframe src="' . $video['links'][1] . '" type="text/html" width="200" height="130" frameborder="0"></iframe>'; ?></a>
-
-                    </div>
                         </div>
+                        <div class="grey-box">
+                            <h3><a href="#"><?php echo $video['titles'][1] ?></a></h3>
+                            <a href="#"><?php echo '<iframe src="' . $video['links'][1] . '" type="text/html" width="200" height="130" frameborder="0"></iframe>'; ?></a>
+
+                        </div>
+                    </div>
                     <!-- End Sub nav -->
 
                     <!-- Widget -->
@@ -162,31 +60,19 @@
                                     echo "  <div class=\"game-day\">
                                 <h2>Игра дня</h2>
 
-                                 <h3>$team1 - $team2</h3>
-                                 <div class=\"button\" id=\"podp\"onclick=\"subscr_wind()\">Подписаться</div>
+                               <div class='gameinf'> <span> <h3>$team1 - $team2 </h3></span><br/> <span>$time_match (UK)</span> </div>
+                                <a href='/main/pay/'> <div class=\"button\" id=\"podp\"onclick=\"\">Подписаться</div></a>
                                 ";
-                                    echo '<div class="subscr_wind">'
-                                    . 'Введите email, на который будет отправлена ссылка для просмотра<br/>'
-                                    . '<input type="email" id="email" name="email" required><br/>'
-                                    . '<div id="valid"></div>'
-                                    . '<br/>'
-                                    . '<b>' . $cost . ' RUB</b> <div onClick="';
-                                    echo $cost == 0 ? 'send()' : 'buy()';
-                                    echo '" id="buy" class="button">Купить</div>'
-                                    . '<div id="results"></div>'
-                                    . '</div>';
-
                                 } else {
-                                    echo ' <a href="#" ><img src="' . $news[0]['pic'] . '" alt="" style="margin-top: 45px; width:438px;"/></a>
+                                    echo ' <a href="' . $news[0]['link'] . '" ><img src="' . $news[0]['pic'] . '" alt="" style="margin-top: 45px; width:438px;"/></a>
                                 <div class="featured-main-details">
                                     <div class="featured-main-details-cnt">
-                                        <h4><a href="#">' . $news[0]['title'] . '</a></h4>
+                                        <h4><a href="' . $news[0]['link'] . '">' . $news[0]['title'] . '</a></h4>
                                         <p>' . $news[0]['desc'] . '</p>
-                                    </div>
-                                </div>';
 
+                                </div>';
                                 }
-                                 echo '</div>';
+                                echo '</div>';
                                 ?>
 
 
@@ -202,9 +88,9 @@
 
                                     echo'    <div class="featured-side-item">
                                     <div class="cl">&nbsp;</div>
-                                    <h4><a href="#">' . $news[$i]['title'] . '</a></h4>';
+                                    <h4><a href="' . $news[$i]['link'] . '">' . $news[$i]['title'] . '</a></h4>';
                                     if (isset($news[$i]['pic'])) {
-                                        echo '<a href="#" class="left"><img src="' . $news[$i]['pic'] . '" alt="" style="width: 120px; float: left;"/></a>';
+                                        echo '<a href="' . $news[$i]['link'] . '" class="left"><img src="' . $news[$i]['pic'] . '" alt="" style="width: 120px; float: left;"/></a>';
                                     }
 
                                     echo'  <p>' . $news[$i]['desc'] . '</p>
@@ -234,7 +120,7 @@
                     <ul>
 
                         <?php
-                        for ($i = 0; $i <= 4; $i++) {
+                        for ($i = 4; $i <= 8; $i++) {
                             echo '<li>
                             <small class="date">' . $news[$i]['pubDate'] . '</small>
                             <p>' . $news[$i]['title'] . '</p>
@@ -247,42 +133,55 @@
                 </div>
                 <div id="content">
                     <div class="cl">&nbsp;</div>
-<!--                    <div class="grey-box">
-                        <h3><a href="#"><?php //echo $video['titles'][0] ?></a></h3>
-                        <a href="#"><?php //echo '<iframe src="' . $video['links'][0] . '" type="text/html" width="210" height="160" frameborder="0"></iframe>'; ?></a>
-                        <a href="#" class="button">Далее...</a>
-                    </div>
-                    <div class="grey-box">
-                        <h3><a href="#"><?php //echo// $video['titles'][1] ?></a></h3>
-                        <a href="#"><?php //echo '<iframe src="' . $video['links'][1] . '" type="text/html" width="210" height="160" frameborder="0"></iframe>'; ?></a>
-                        <a href="#" class="button">Далее...</a>
-                    </div>-->
-<!--                    <div class="grey-box last">
-                        <h3><a href="#"><?php //echo //$video['titles'][2] ?></a></h3>
-                        <a href="#"><?php //echo '<iframe src="' . $video['links'][2] . '" type="text/html" width="210" height="160" frameborder="0" ></iframe>'; ?></a>
-                        <a href="#" class="button">Далее...</a>
-                    </div>-->
+                    <!--                    <div class="grey-box">
+                                            <h3><a href="#"><?php //echo $video['titles'][0]  ?></a></h3>
+                                            <a href="#"><?php //echo '<iframe src="' . $video['links'][0] . '" type="text/html" width="210" height="160" frameborder="0"></iframe>';  ?></a>
+                                            <a href="#" class="button">Далее...</a>
+                                        </div>
+                                        <div class="grey-box">
+                                            <h3><a href="#"><?php //echo// $video['titles'][1]  ?></a></h3>
+                                            <a href="#"><?php //echo '<iframe src="' . $video['links'][1] . '" type="text/html" width="210" height="160" frameborder="0"></iframe>';  ?></a>
+                                            <a href="#" class="button">Далее...</a>
+                                        </div>-->
+                    <!--                    <div class="grey-box last">
+                                            <h3><a href="#"><?php //echo //$video['titles'][2]  ?></a></h3>
+                                            <a href="#"><?php //echo '<iframe src="' . $video['links'][2] . '" type="text/html" width="210" height="160" frameborder="0" ></iframe>';  ?></a>
+                                            <a href="#" class="button">Далее...</a>
+                                        </div>-->
                     <div class="cl">&nbsp;</div>
-                    <div class="video-box">
+                    <?php
+                    $z = 0;
+ foreach ($vid as $vide){
+    if (!empty($vide)) {
+        $z++;
+    }
+ }
+ if ($z == 0){
+     $display = 'display: none;';
+ }
+ if ($z == 1 or $z == 2){
+     $height = 'height: 250px;';
+ }
+ ?>
+                    <div class="video-box" style='<?php echo $display; echo $height?>'>
                         <div class="cl">&nbsp;</div>
                         <h2 class="left">video spot</h2>
-                        <a href="#" class="button">All videos</a>
                         <div class="cl">&nbsp;</div>
                         <div class="video-item-box">
 
-                            <div class="videos">    <?php echo $video1?></div>
+                            <div class="videos">    <?php echo $vid[1] ?></div>
 
                         </div>
                         <div class="video-item-box second">
-                            <div class="videos">  <?php echo $video2?>  </div>
+                            <div class="videos">  <?php echo $vid[2] ?>  </div>
 
                         </div>
                         <div class="video-item-box">
-                            <div class="videos">  <?php echo $video3?>  </div>
+                            <div class="videos">  <?php echo $vid[3] ?>  </div>
 
                         </div>
                         <div class="video-item-box second">
-                            <div class="videos">  <?php echo $video4?>  </div>
+                            <div class="videos">  <?php echo $vid[4] ?>  </div>
 
                         </div>
                         <div class="cl">&nbsp;</div>
@@ -296,6 +195,15 @@
         <!-- Footer -->
         <div id="footer">
             <div class="shell">
+                <p  class="left" onClick="cont()" id="cont">Контакты:</p>
+                <div class="cl">&nbsp;</div>
+                <p class="left" id="contacts">
+                    Малышева Ольга<br/>
+                    Телефон: +79520979732<br/>
+                    E-mail: footbootorg@gmail.com<br/>
+                    Skype: footboot_org<br/>
+                </p>
+
                 <div class="cl">&nbsp;</div>
                 <p class="right">&copy;  by <a href="#">genkovich</a></p>
                 <div class="cl">&nbsp;</div>

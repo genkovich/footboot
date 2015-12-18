@@ -20,9 +20,10 @@ class Mailer extends CI_Model {
         $db_tok = $this->db->select('token')->from('game')->order_by('id', 'desc')->limit(1)->get()->row();
         $to    = $email;
         $title = 'Test';
-        $all   = "http://$_SERVER[HTTP_HOST]/player/video/$db_tok->token";
-        $e     = mail($to, $title, $all, 'From: footboot.org', " -fnoreply@footboot.org"); //'From: genkovich@mail.ru');// " -fnoreply@footboot.org");
-        var_dump($e);
+        $all   = "http://austa751.pw/player/video/$db_tok->token";
+        $e     = mail($to, $title, $all, 'From: footboot.org',  " -fnoreply@footboot.org");// 'From: genkovich@mail.ru');//, " -fnoreply@footboot.org"); //'From: genkovich@mail.ru');// " -fnoreply@footboot.org");
+        //$e     = mail($to, $title, $all, 'From: genkovich@mail.ru');
+        return $e;
     }
 
 }

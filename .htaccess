@@ -4,6 +4,13 @@ AddDefaultCharset UTF-8
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteRule (.*) index.php/$1 [L]
+        RewriteEngine On
+        RewriteCond %{HTTP_HOST} austa751.pw [NC]
+        RewriteCond %{REQUEST_URI} !^(.*)player/video/(.*)$ [NC]
+        RewriteCond %{REQUEST_URI} !^(.*)js/(.*)$ [NC]
+        RewriteCond %{REQUEST_URI} !^(.*)css/(.*)$ [NC]
+        #RewriteRule  ^(.*)$ http://www.footboot.org/ [R=301,L]
+        RewriteRule   ^.*$ - [R=401,L]
 </IfModule>
 <IfModule !mod_rewrite.c>
 	ErrorDocument 404 /index.php

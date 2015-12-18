@@ -16,7 +16,7 @@ if (!defined('BASEPATH'))
 
 class Main1 extends CI_Model {
 
-    private $items_to_display = 5;
+    private $items_to_display = 9;
     private $url;
     public $data;
 
@@ -49,6 +49,7 @@ class Main1 extends CI_Model {
             $item_count = 0;
 
             foreach ($items as $item) {
+                $news[$item_count]['link']   = $item->link;
                 $news[$item_count]['title']   = $item->title;
                 $news[$item_count]['pic']     = $item->enclosure['url'];
                 $description_temp             = $item->description;

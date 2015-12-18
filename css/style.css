@@ -4,8 +4,8 @@ body {
     font-size: 12px;
     font-family: Arial, sans-serif;
     color: #fff;
-	background: #171717;
-	height: 100%;
+    background: #171717;
+    height: 100%;
     text-align: left;
 }
 
@@ -50,9 +50,14 @@ h1#logo a {display: block; background: url(images/logo.gif) no-repeat 0 0; width
 #heading-box-cnt {background: url(images/heading-box.png) no-repeat 0 0; background-size: 710px 390px; width: 719px; height: 390px; padding-top: 5px; padding-left: 4px;}
 .featured-main {position: relative; width: 440px; float: left;}
 .game-day {margin-top: 20%;}
+
+#heading-box h1 {
+    text-align: center;
+    margin-top: 2%;
+}
 .featured-main h2 {font-size: 36px; color: #9fea00; text-align: center;}
-.featured-main .button {
-        text-align: center;
+.button {
+    text-align: center;
     width: 100px;
     height: 20px;
     cursor: pointer;
@@ -113,9 +118,9 @@ a.watch-now:hover {text-decoration: none;}
 #footer a:hover {text-decoration: none;}
 .featured-side-item img {width: 93px; float: left;}
 .grey-box .button {margin-top: 5px;}
-.subscr_wind{display: none; margin: 10px 30%; text-align:center;}
+.subscr_wind{ margin: 10% 33%; text-align:center; width: 250px; font-size: 14px;}
 .subscr_wind .button {margin: 10px 30%;}
-#buy{margin: 10px 20%; }
+#buy{margin: 10px 27%; }
 .subscr_wind img { border: none;}
 .content_control {
     line-height: 25px;
@@ -197,5 +202,60 @@ a.watch-now:hover {text-decoration: none;}
 }
 
 .messagel div {
-margin-top: 15px;
+    margin-top: 15px;
+}
+.payment {
+    display: inline-block;
+    margin: 10px;
+}
+#interkassa {
+    width:  100px;  // длина кнопки
+    margin: 0;
+
+    border: 0;
+    height: 100px;
+    text-indent: -1000em;
+    background: url(/css/images/interkassa.png) no-repeat ;
+    background-size: contain; /* Масштабируем фон */
+
+}
+#payeer {
+    width:  100px;  // длина кнопки
+    margin: 0;
+
+    border: 0;
+    height: 100px;
+    text-indent: -1000em;
+    background-color: rgba( 255, 255, 255, 0.2);
+    background: url(/css/images/paieer.png) no-repeat ;
+
+    background-size: contain; /* Масштабируем фон */
+
+}
+
+#interkassa:hover , #payeer:hover {
+    cursor: pointer;
+    background-color: rgba( 255, 255, 255, 0.3);
+
+
+
+}
+.game-day h3 {
+    display: inline-block;
+}
+.game-day h3 span {
+    font-size: 10px;
+}
+
+.gameinf {
+    text-align: center;
+}
+
+#cont:hover{
+    cursor: pointer;
+}
+
+#contacts {
+    display: none;
+
 }

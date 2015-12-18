@@ -20,26 +20,42 @@ class Payment extends CI_Controller {
 
     }
 
-    function confirm() {
+    function sucsess() {
+        $data['status']  = 'Ваше сообщение успешно отправлено';
+        $data['message'] = 'Для повторной отправки сообщения нажмите на ссылку';
+        $this->load->view('template_pay_status', $data);
+    }
 
+    function failed() {
+        $data['status']  = 'Ваше сообщение не было отправлено';
+        $data['message'] = 'Попробуйте произвести оплату еще раз.';
+        $this->load->view('template_pay_status', $data);
     }
 
     public function buy() {
         $email = $_POST['email'];
-        $form  = $this->payment->buy($email);
-        echo $form;
+        if ($this->payment->isSended($email) == false) {
+            $form = $this->payment->buy($email);
+            echo $form;
+        } else {
+            echo 'Вы уже подписаны, выслать ссылку еще раз?';
+        }
     }
 
     function status() {
+        if (isset($_POST['email'])) {
+            $email = $_POST['email'];
+        }
         $price = $this->payment->checkCost();
-        if ($price == 0) {
-            if (isset($_POST['email'])) {
-                $email = $_POST['email'];
+        if ($this->payment->isInTable($email) == false) {
+            if ($price == 0) {
                 $this->payment->addEmail($email);
-                $this->mailer->test($email);
-            } else {
-                echo 'Почта была отправлена неверно';
+                if ($this->mailer->test($email)) {
+                    echo "Сообщение успешно отправлено Вам на почту";
+                }
             }
+        } else {
+            echo 'Вы уже подписаны, выслать ссылку еще раз?';
         }
         if ($price > 0) {
             $buff = '';
@@ -47,18 +63,42 @@ class Payment extends CI_Controller {
                 $buff .= "$key: $val";
             }
             $data = array(
-            'log' => $buff,
-        );
+                'log' => $buff,
+            );
             $this->db->insert('log', $data);
-            $ik_payment_amount = trim(stripslashes($_POST['ik_am'])); // 1;   //Сумма платежа (recipientAmount);
-            $ik_payment_id     = trim(stripslashes($_POST['ik_pm_no']));   //242;     //Идентификатор платежа
-            $ik_payment_state  = trim(stripslashes($_POST['ik_inv_st'])); //'success';  //Статус платежа (paymentStatus);
-            $ik_currency_exch  = trim(stripslashes($_POST['ik_cur']));  //'RUB';   //Валюта платежа (recipientCurrency);
-            $userId            = $this->payment->isConfirm($ik_payment_amount, $ik_payment_id, $ik_payment_state, $ik_currency_exch);
+            if (isset($_POST['ik_pm_no'])) {
+                $ik_payment_amount = trim(stripslashes($_POST['ik_am'])); // 1;   //Сумма платежа (recipientAmount);
+                $ik_payment_id     = trim(stripslashes($_POST['ik_pm_no']));   //242;     //Идентификатор платежа
+                $ik_payment_state  = trim(stripslashes($_POST['ik_inv_st'])); //'success';  //Статус платежа (paymentStatus);
+                $ik_currency_exch  = trim(stripslashes($_POST['ik_cur']));  //'RUB';   //Валюта платежа (recipientCurrency);
+                $userId            = $this->payment->isConfirmIk($ik_payment_amount, $ik_payment_id, $ik_payment_state, $ik_currency_exch);
+            }
+            if (isset($_POST['m_operation_id']) && isset($_POST['m_sign'])) {
+                $m_key     = 'xxsd';
+                $arHash    = array($_POST['m_operation_id'],
+                    $_POST['m_operation_ps'],
+                    $_POST['m_operation_date'],
+                    $_POST['m_operation_pay_date'],
+                    $_POST['m_shop'],
+                    $_POST['m_orderid'],
+                    $_POST['m_amount'],
+                    $_POST['m_curr'],
+                    $_POST['m_desc'],
+                    $_POST['m_status'],
+                    $m_key);
+                $sign_hash = strtoupper(hash('sha256', implode(':', $arHash)));
+                if ($_POST['m_sign'] == $sign_hash && $_POST['m_status'] == 'success') {
+                   $userId            = $this->payment->isConfirmPayeer($_POST['m_orderid']);
+
+                }
+
+            }
             if (isset($userId)) {
-                $this->payment->updateStatus($userId);
+               $status1 = $this->payment->updateStatus($userId);
+               if ($status1 == true) {
                 $email = $this->payment->getEmail($userId);
                 $this->mailer->test($email);
+               }
             }
         }
     }

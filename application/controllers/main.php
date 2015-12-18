@@ -17,10 +17,10 @@ class Main extends CI_Controller {
                 $mod = new Main1;
                 $game = $this->adm->getGame();
                 $video = $this->adm->getVideo();
-        $data['video1'] = $video->video1;
-        $data['video2'] = $video->video2;
-        $data['video3'] = $video->video3;
-        $data['video4'] = $video->video4;
+        $data['vid'][1] = $video->video1;
+        $data['vid'][2] = $video->video2;
+        $data['vid'][3] = $video->video3;
+        $data['vid'][4] = $video->video4;
                 $data['news'] = $mod->get_news();
                 $data['video'] = $mod->get_video();
                 $data['video']['links'] = $mod->get_video_links();
@@ -28,8 +28,20 @@ class Main extends CI_Controller {
                 $data['team2'] = $game->team2;
                 $data['show'] = $game->show;
                 $data['cost'] = $game->price;
+                $time_match_tmp = explode(":", $game->time_match);
+                $data['time_match'] = $time_match_tmp[0].":".$time_match_tmp[1];
 		$this->load->view('template', $data);
 	}
+
+        public function pay(){
+            $game = $this->adm->getGame();
+            $data['cost'] = $game->price;
+            if ($game->show == 1){
+            $this->load->view('template_pay', $data);
+            } else {
+                echo 'Подписка закрыта';
+            }
+        }
 
 
 

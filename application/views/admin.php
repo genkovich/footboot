@@ -51,12 +51,13 @@
                 var team1 = $('#team1').val();
                 var team2 = $('#team2').val();
                 var price = $('#price').val();
-                var timeend = $('#dateend').val()
+                var timeend = $('#dateend').val();
+                var time_match = $('#hours').val() + ":" + $('#minutes').val() + ":00";
                 var show = $('#show').is(':checked');
                 $.ajax({
                     type: 'POST',
                     url: url,
-                    data: 'team1=' + team1 + "&team2=" + team2 + "&price=" + price + "&show=" + show + "&timeend=" + timeend,
+                    data: 'team1=' + team1 + "&team2=" + team2 + "&price=" + price + "&show=" + show + "&timeend=" + timeend + "&time_match=" + time_match,
                     beforeSend: function () {
                         $('#results_match').html("<img src='/css/images/loader.GIF' />");
                     },
@@ -119,7 +120,7 @@ $('#results_match').html(data);
                 <h1>Control Panel</h1>
                 <div>Game of the day: <input type="text" id="team1" value="<?php echo $team1 ?>" size="15"> vs <input type="text" id="team2" value="<?php echo $team2 ?>" size="15"></div>
                 <div>Срок действия ссылки <input type="text" id="dateend"  value="<?php echo $timeend ?>"/>  </div>
-                <div>Time: <input type="text" value="<?php echo $hours ?>" size="2" maxlength="2">:<input type="text" value="<?php echo $minutes ?>" size="2" maxlength="2"></div>
+                <div>Time: <input type="text" id="hours" value="<?php echo $hours ?>" size="2" maxlength="2">:<input type="text" id="minutes" value="<?php echo $minutes ?>" size="2" maxlength="2"></div>
                 <div>Price:  <input type="text" id="price" value="<?php echo $price ?>" size="15"> </div>
                 <div><input type="checkbox" id='show' value="Show" <?php echo $show ?>/> Show</div>
 

@@ -12,22 +12,30 @@ class Lunit extends CI_Controller {
         $this->load->library('session');
         $this->load->model('adm');
         $this->adm = new Adm;
+
+        if (!isset($_SERVER['PHP_AUTH_USER']) || $_SERVER['PHP_AUTH_USER'] != 'footboot-admin' || $_SERVER['PHP_AUTH_PW'] != 'Zx4dRpxAd') {
+            header('WWW-Authenticate: Basic realm="footboot.org"');
+            header('HTTP/1.0 401 Unauthorized');
+            die('Access Denied');
+        }
     }
 
     function index() {
-        $game = $this->adm->getGame();
-        $video = $this->adm->getVideo();
-        $data['video1'] = $video->video1;
-        $data['video2'] = $video->video2;
-        $data['video3'] = $video->video3;
-        $data['video4'] = $video->video4;
+        $game            = $this->adm->getGame();
+        $video           = $this->adm->getVideo();
+        $data['video1']  = $video->video1;
+        $data['video2']  = $video->video2;
+        $data['video3']  = $video->video3;
+        $data['video4']  = $video->video4;
         $data['team1']   = $game->team1;
         $data['team2']   = $game->team2;
         $data['timeend'] = $game->datetime;
-        $data['hours']   = '';
-        $data['minutes'] = '';
+        $time = explode(":", $game->time_match);
+        $data['hours']   = $time[0];
+        $data['minutes'] = $time[1];
         $data['price']   = $game->price;
         $data['show']    = $game->show == 1 ? 'checked' : '';
+
         $this->load->view('admin', $data);
     }
 
@@ -54,9 +62,9 @@ class Lunit extends CI_Controller {
         echo "<table cellspacing='0' border='1' cellpadding='0'>";
         echo "<thead>"
         . "<th>Email</th>"
-                . "<th>Date</th>"
-                . "<th>Game</th>"
-                . "<th>Price</th>"
+        . "<th>Date</th>"
+        . "<th>Game</th>"
+        . "<th>Price</th>"
         . "</thead>";
         foreach ($query->result() as $row) {
             echo "<tr>"
@@ -76,52 +84,55 @@ class Lunit extends CI_Controller {
             $price   = $_POST['price'];
             $show    = $_POST['show'];
             $timeend = $_POST['timeend'];
-            $res     = $this->adm->save($team1, $team2, $price, $show, $timeend);
+            $time_match =  $_POST['time_match'];
+            $res     = $this->adm->save($team1, $team2, $price, $show, $timeend, $time_match);
             if ($res) {
                 echo 'Сохранено';
             }
         }
     }
 
-    function newGame(){
+    function newGame() {
         if (isset($_POST['team1']) && isset($_POST['team2']) && isset($_POST['price'])) {
             $team1   = $_POST['team1'];
             $team2   = $_POST['team2'];
             $price   = $_POST['price'];
             $show    = $_POST['show'];
             $timeend = $_POST['timeend'];
-            $res     = $this->adm->newGame($team1, $team2, $price, $show, $timeend);
+            $time_match =  $_POST['time_match'];
+            $res     = $this->adm->newGame($team1, $team2, $price, $show, $timeend, $time_match);
             if ($res) {
                 echo 'Добавлено';
             }
         }
     }
 
-    function savevideo(){
-        for($i = 1; $i <= 4; $i++) {
-            $vid[] = $_POST['video'.$i];
+    function savevideo() {
+        for ($i = 1; $i <= 4; $i++) {
+            $vid[] = $_POST['video' . $i];
         }
 
         $this->adm->saveVideo($vid);
     }
 
-    function newletter(){
-       $emails = $this->db->select('email')->from('email')->group_by('email')->get()->result();
-       foreach ($emails as $email){
-           $data['email'][] = $email->email;
-       }
+    function newletter() {
+        $emails = $this->db->select('email')->from('email')->group_by('email')->get()->result();
+        foreach ($emails as $email) {
+            $data['email'][] = $email->email;
+        }
         $this->load->view('letter', $data);
     }
 
-    function sendmess(){
+    function sendmess() {
         $adres = explode(",", $_POST['opt']);
-        foreach($adres as $adr){
-        $to    = $adr;
-        $title = $_POST['subj'];
-        $all   = $_POST['mess'];
-        $e     = mail($to, $title, $all, 'From: genkovich@mail.ru');//, " -fnoreply@footboot.org"); //'From: genkovich@mail.ru');// " -fnoreply@footboot.org");
-        var_dump($e);
+        foreach ($adres as $adr) {
+            $to    = $adr;
+            $title = $_POST['subj'];
+            $all   = $_POST['mess'];
+            $e     = mail($to, $title, $all, 'From: footboot.org', ' -fnoreply@footboot.org' ); //, " -fnoreply@footboot.org"); //'From: genkovich@mail.ru');// " -fnoreply@footboot.org");
+            var_dump($e);
         }
-        var_dump($_POST);
+
     }
+
 }

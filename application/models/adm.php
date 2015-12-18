@@ -29,7 +29,7 @@ class Adm extends CI_Model {
         return $query;
     }
 
-    function save($team1, $team2, $price, $show, $timeend) {
+    function save($team1, $team2, $price, $show, $timeend, $time_match) {
         $bool   = filter_var($show, FILTER_VALIDATE_BOOLEAN);
         $data   = array(
             'team1'    => $team1,
@@ -37,6 +37,7 @@ class Adm extends CI_Model {
             'price'    => $price,
             'show'     => $bool,
             'datetime' => $timeend,
+            'time_match' => $time_match,
         );
         $max_id = $this->db->select_max('id')->from('game')->get()->row_array();
         if ($this->db->where('id', $max_id['id'])->update('game', $data)) {
@@ -44,7 +45,7 @@ class Adm extends CI_Model {
         }
     }
 
-    function newGame($team1, $team2, $price, $show, $timeend) {
+    function newGame($team1, $team2, $price, $show, $timeend, $time_match) {
         $bool = filter_var($show, FILTER_VALIDATE_BOOLEAN);
         $data = array(
             'team1'    => $team1,
@@ -52,6 +53,7 @@ class Adm extends CI_Model {
             'price'    => $price,
             'show'     => $bool,
             'datetime' => $timeend,
+            'time_match' => $time_match,
             'token'    => md5(rand(0, 999) . $team1 . $team2),
         );
 

@@ -23,7 +23,7 @@
 <body>
 
     <div>
-        <audio class="player" src="/media//PodcastStavki1.mp3">
+        <audio class="player" src="/media/PodcastStavki1.mp3">
           Your browser does not support the <code>audio</code> element.
         </audio>
     </div>
