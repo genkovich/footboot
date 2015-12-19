@@ -113,7 +113,13 @@ $('#results_match').html(data);
 
                 });
             }
-
+           function free(){
+            if ($('#free').is(':checked')) {
+            $('#price').val('0').hide();
+            } else {
+            $('#price').val('1').show();
+            }
+            }
         </script>
         <div class="content_control">
             <div class = 'match'>
@@ -121,7 +127,8 @@ $('#results_match').html(data);
                 <div>Game of the day: <input type="text" id="team1" value="<?php echo $team1 ?>" size="15"> vs <input type="text" id="team2" value="<?php echo $team2 ?>" size="15"></div>
                 <div>Срок действия ссылки <input type="text" id="dateend"  value="<?php echo $timeend ?>"/>  </div>
                 <div>Time: <input type="text" id="hours" value="<?php echo $hours ?>" size="2" maxlength="2">:<input type="text" id="minutes" value="<?php echo $minutes ?>" size="2" maxlength="2"></div>
-                <div>Price:  <input type="text" id="price" value="<?php echo $price ?>" size="15"> </div>
+                <div>Price:   <input type="checkbox" id='free' value="Free" onchange="free()" <?php echo $free ?>/> Free <input type="text" id="price" value="<?php echo $price ?>" size="15"></div>
+
                 <div><input type="checkbox" id='show' value="Show" <?php echo $show ?>/> Show</div>
 
                 <div><button id="newGame" onClick="newGame();">New Game</button></div>

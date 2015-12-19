@@ -59,7 +59,7 @@ h1#logo a {display: block; background: url(images/logo.gif) no-repeat 0 0; width
 .button {
     text-align: center;
     width: 100px;
-    height: 20px;
+    //height: 20px;
     cursor: pointer;
     padding: 10px 10px 5px 10px;
     margin: 0px;

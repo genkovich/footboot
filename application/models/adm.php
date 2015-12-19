@@ -75,7 +75,7 @@ class Adm extends CI_Model {
             $data['video' . $i] = $video;
             $i++;
         }
-        var_dump($data);
+        //var_dump($data);
         if ($this->db->insert('videos', $data)) {
             return true;
         }

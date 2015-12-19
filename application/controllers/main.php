@@ -8,6 +8,7 @@ class Main extends CI_Controller {
         $this->load->model('main1');
         $this->load->model('adm');
         $this->adm = new Adm;
+        $this->load->helper('date');
     }
 
 
@@ -26,7 +27,14 @@ class Main extends CI_Controller {
                 $data['video']['links'] = $mod->get_video_links();
                 $data['team1'] = $game->team1;
                 $data['team2'] = $game->team2;
-                $data['show'] = $game->show;
+                $now = now();
+                if(strtotime($game->datetime) < $now){
+                    $data['show'] = 0;
+                } else {
+                    $data['show'] = $game->show;
+                }
+
+
                 $data['cost'] = $game->price;
                 $time_match_tmp = explode(":", $game->time_match);
                 $data['time_match'] = $time_match_tmp[0].":".$time_match_tmp[1];

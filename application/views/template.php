@@ -158,12 +158,15 @@
  }
  if ($z == 0){
      $display = 'display: none;';
+ } else {
+     $display = 'display: inline-block;';
  }
  if ($z == 1 or $z == 2){
-     $height = 'height: 250px;';
+     $height = 'height: 320px;';
+     $block_display = 'display: none;';
  }
  ?>
-                    <div class="video-box" style='<?php echo $display; echo $height?>'>
+                    <div class="video-box" style='<?php  echo $display; if (isset($height)){ echo $height;}?>'>
                         <div class="cl">&nbsp;</div>
                         <h2 class="left">video spot</h2>
                         <div class="cl">&nbsp;</div>
@@ -176,11 +179,11 @@
                             <div class="videos">  <?php echo $vid[2] ?>  </div>
 
                         </div>
-                        <div class="video-item-box">
+                        <div class="video-item-box " style='<?php if (isset($block_display)){ echo $block_display;}?>'>
                             <div class="videos">  <?php echo $vid[3] ?>  </div>
 
                         </div>
-                        <div class="video-item-box second">
+                        <div class="video-item-box second" style='<?php if (isset($block_display)){ echo $block_display;}?>'>
                             <div class="videos">  <?php echo $vid[4] ?>  </div>
 
                         </div>

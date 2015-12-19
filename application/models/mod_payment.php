@@ -20,10 +20,10 @@ class Mod_Payment extends CI_Model {
 
     function __construct() {
         parent::__construct();
+         $this->load->library('session');
         $this->load->model('adm');
         $this->adm = new Adm;
         $this->load->helper('date');
-        $this->load->library('session');
         date_default_timezone_set('UTC');
     }
 
@@ -41,6 +41,7 @@ class Mod_Payment extends CI_Model {
         $game      = $this->adm->getGame();
         $idGame    = $game->id;
         $isInTable = $this->db->select('email')->from('email')->where('game', $idGame)->where('email', $email)->where('status', 1)->get()->row();
+
         return $isInTable;
     }
 
@@ -178,9 +179,9 @@ class Mod_Payment extends CI_Model {
         }
     }
      public function isConfirmPayeer($m_orderid) {
-        $m_orderid = $this->getPayeerInf($m_orderid);
+        $m_orderid1 = $this->getPayeerInf($m_orderid);
             //$this->addEmail($email);
-            return $m_orderid->id_user;
+            return $m_orderid1->id_user;
 
     }
 

@@ -10,19 +10,38 @@ class Payment extends CI_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->library('session');
         $this->load->model('mod_payment');
         $this->payment = new Mod_Payment;
         $this->load->model('mailer');
         $this->mailer  = new Mailer;
+        $this->load->helper('url');
     }
 
     function index() {
 
     }
 
+    function sendAgain($email){
+        if ($email == $this->session->userdata('email')) {
+           if($this->mailer->test($email)) {
+               $this->session->set_userdata('time', now());
+               $this->session->unset_userdata('email');
+               header('Location: /payment/sucsess/');
+           } else {
+               header('Location: /payment/failed/');
+           }
+        } else {
+            header('Location: /payment/failed/');
+        }
+
+    }
+
     function sucsess() {
         $data['status']  = 'Ваше сообщение успешно отправлено';
-        $data['message'] = 'Для повторной отправки сообщения нажмите на ссылку';
+        if ($this->session->userdata('email')) {
+        $data['message'] = 'Для повторной отправки сообщения нажмите на кнопку <br/> <a href="/payment/sendAgain/'.$this->session->userdata('email').'"> <button class="button">Выслать</button></a> ';
+        }
         $this->load->view('template_pay_status', $data);
     }
 
@@ -38,7 +57,8 @@ class Payment extends CI_Controller {
             $form = $this->payment->buy($email);
             echo $form;
         } else {
-            echo 'Вы уже подписаны, выслать ссылку еще раз?';
+             $this->session->set_userdata('email', $email);
+            echo 'Вы уже подписаны, выслать ссылку еще раз? <br/> <a href="/payment/sendAgain/'.$this->session->userdata('email').'"> <button class="button">Выслать</button></a>';
         }
     }
 
@@ -55,7 +75,8 @@ class Payment extends CI_Controller {
                 }
             }
         } else {
-            echo 'Вы уже подписаны, выслать ссылку еще раз?';
+            $this->session->set_userdata('email', $email);
+            echo 'Вы уже подписаны, выслать ссылку еще раз? <br/> <a href="/payment/sendAgain/'.$this->session->userdata('email').'"> <button class="button">Выслать</button></a>';
         }
         if ($price > 0) {
             $buff = '';
@@ -95,6 +116,8 @@ class Payment extends CI_Controller {
             }
             if (isset($userId)) {
                $status1 = $this->payment->updateStatus($userId);
+                $this->session->set_userdata('email', $email);
+
                if ($status1 == true) {
                 $email = $this->payment->getEmail($userId);
                 $this->mailer->test($email);

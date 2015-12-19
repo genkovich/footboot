@@ -34,7 +34,9 @@ class Lunit extends CI_Controller {
         $data['hours']   = $time[0];
         $data['minutes'] = $time[1];
         $data['price']   = $game->price;
+        $data['free'] = $game->price > 0 ? '' :'checked' ;
         $data['show']    = $game->show == 1 ? 'checked' : '';
+
 
         $this->load->view('admin', $data);
     }

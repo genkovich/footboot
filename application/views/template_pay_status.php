@@ -36,9 +36,11 @@ and open the template in the editor.
 
                                 <?php
 //var_dump($news);
+                                if (isset($message)) {
                                 echo $message;
+                                }
                                 ?>
-
+                            <a href='/'><button class="button">На главную</button></a>
                             </div>
 
 
