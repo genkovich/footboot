@@ -15,7 +15,15 @@ and open the template in the editor.
 
         <div id="header">
             <div class="shell">
-
+				<nav class="top-menu" id="navigation">
+					<ul>
+						<li><a href="/">Главная</a></li>
+						<li><a href="/about">О нас</a></li>
+						<li><a href="/rules">Правила</a></li>
+						<li><a href="/faq">FAQ</a></li>
+						<li><a href="/contacts">Контакты</a></li>
+					</ul>
+				</nav>
             </div>
         </div>
 
@@ -40,7 +48,7 @@ and open the template in the editor.
                                 echo $message;
                                 }
                                 ?>
-                            <a href='/'><button class="button">На главную</button></a>
+<!--                            <a href='/'><button class="button">На главную</button></a>-->
                             </div>
 
 
@@ -64,7 +72,10 @@ and open the template in the editor.
         <div id="footer">
             <div class="shell">
                 <div class="cl">&nbsp;</div>
-                <p class="right">&copy;  by <a href="#">genkovich</a></p>
+                <div class="left">
+                    <a href="http://payeer.com" target="_blank"><img src="/css/images/payeer-logo.png" alt="Payeer"></a>
+                </div>
+				<p class="right">&copy;  by <a href="#">genkovich</a></p>
                 <div class="cl">&nbsp;</div>
             </div>
         </div>

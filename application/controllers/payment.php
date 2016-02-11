@@ -37,10 +37,10 @@ class Payment extends CI_Controller {
 
     }
 
-    function sucsess() {
-        $data['status']  = 'Ваше сообщение успешно отправлено';
-        if ($this->session->userdata('email')) {
-        $data['message'] = 'Для повторной отправки сообщения нажмите на кнопку <br/> <a href="/payment/sendAgain/'.$this->session->userdata('email').'"> <button class="button">Выслать</button></a> ';
+    function sucsess() {        
+        $data['status']  = 'Оплата прошла успешно. Сообщение отправлено вам на email.';
+        if ($this->payment->isSended($this->session->userdata('email'))) {
+        $data['message'] = 'Если в течение 5 минут письмо вам не пришло, нажмите кнопку для повторной отправки <br/> <a href="/payment/sendAgain/'.$this->session->userdata('email').'"> <button class="button">Отправить</button></a> ';
         }
         $this->load->view('template_pay_status', $data);
     }
@@ -55,6 +55,7 @@ class Payment extends CI_Controller {
         $email = $_POST['email'];
         if ($this->payment->isSended($email) == false) {
             $form = $this->payment->buy($email);
+            $this->session->set_userdata('email', $email);
             echo $form;
         } else {
              $this->session->set_userdata('email', $email);
@@ -116,7 +117,7 @@ class Payment extends CI_Controller {
             }
             if (isset($userId)) {
                $status1 = $this->payment->updateStatus($userId);
-                $this->session->set_userdata('email', $email);
+
 
                if ($status1 == true) {
                 $email = $this->payment->getEmail($userId);

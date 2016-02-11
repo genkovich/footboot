@@ -22,12 +22,15 @@ class Player extends CI_Controller {
             //var_dump($db_tok);
            // var_dump($token);
             if ($token == $db_tok->token) {
-
-                $this->load->view('player');
+                $this->load->view('rmtp_player');
+              // $this->load->view('player');
             } else {
                 echo 'No access - Link has expired';
             }
         }
+    } 
+    function rmtp (){
+        $this->load->view('iframe');
     }
 
 }

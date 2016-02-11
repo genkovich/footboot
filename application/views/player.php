@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=620">
-    <title>Simple HTML5 Player Demo</title>
+    <title>Title</title>
     <link rel="stylesheet" href="/css/simpleplayer.css" type="text/css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="/js/jquery.simpleplayer.js"></script>

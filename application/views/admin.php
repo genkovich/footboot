@@ -130,9 +130,10 @@ $('#results_match').html(data);
                 <div>Price:   <input type="checkbox" id='free' value="Free" onchange="free()" <?php echo $free ?>/> Free <input type="text" id="price" value="<?php echo $price ?>" size="15"></div>
 
                 <div><input type="checkbox" id='show' value="Show" <?php echo $show ?>/> Show</div>
-
-                <div><button id="newGame" onClick="newGame();">New Game</button></div>
-                <div> <a href="/admin/newletter/" ><button>New letter</button></a></div>
+                <?php echo $link ?>
+                <div><button id="newGame" onClick="newGame();">Новая игра</button></div>
+                <div> <a href="/admin/newletter/">Рассылка писем</a></div>
+                <div> <a href="/admin/upload/">Добавить видео</a></div>
                 <div class="videoContent">
                     <textarea id="video1" class="videosAdm"><?php echo $video1; ?></textarea>
                     <textarea id="video2" class="videosAdm"><?php echo $video2; ?></textarea>
@@ -143,7 +144,7 @@ $('#results_match').html(data);
 
             </div>
             <div id="results_match"></div>
-
+            
             <input type="date" id="date1"> <input type="date" id="date2"> <button id="show_all" onClick="show_stats();">Отобразить подписку</button>
             <div id="results"></div>
             <div id="saveButton"><button id="save" onClick="save();">Save</button></div>

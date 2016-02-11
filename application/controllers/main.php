@@ -11,9 +11,14 @@ class Main extends CI_Controller {
         $this->load->helper('date');
     }
 
+    public function test () {
+        $this->load->view('admin/templates/header');
+        $this->load->view('admin/templates/footer');
+    }
 
     public function index()
 	{
+
             date_default_timezone_set('UTC');
                 $mod = new Main1;
                 $game = $this->adm->getGame();

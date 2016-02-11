@@ -43,8 +43,13 @@ $route['admin/login'] = 'admin/lunit/login';
 $route['admin/logout'] = 'admin/lunit/logout';
 $route['admin/newletter'] = 'admin/lunit/newletter';
 //$route['admin/showdate'] = 'admin/lunit/showdate';
-
+$route['embed'] = 'embded/index/empty';
+$route['embed/(:any)'] = 'embded/index/$1';
+$route['upload'] = 'upload';
+$route['admin/upload'] = 'admin/lunit/upload';
+$route['upload/do_upload'] = 'upload/do_upload';
 $route['player/video'] = 'player/video/$1';
+$route['upload/deleteImage'] = 'upload/deleteImage/$1';
 $route['admin'] = 'admin/lunit';
 $route['default_controller'] = "main";
 $route['404_override'] = '';

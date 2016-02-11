@@ -9,6 +9,7 @@ AddDefaultCharset UTF-8
         RewriteCond %{REQUEST_URI} !^(.*)player/video/(.*)$ [NC]
         RewriteCond %{REQUEST_URI} !^(.*)js/(.*)$ [NC]
         RewriteCond %{REQUEST_URI} !^(.*)css/(.*)$ [NC]
+        RewriteCond %{REQUEST_URI} !^(.*)media/(.*)$ [NC]
         #RewriteRule  ^(.*)$ http://www.footboot.org/ [R=301,L]
         RewriteRule   ^.*$ - [R=401,L]
 </IfModule>

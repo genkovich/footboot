@@ -36,6 +36,7 @@ class Lunit extends CI_Controller {
         $data['price']   = $game->price;
         $data['free'] = $game->price > 0 ? '' :'checked' ;
         $data['show']    = $game->show == 1 ? 'checked' : '';
+        $data['link'] = "http://austa751.pw/player/video/".$game->token;
 
 
         $this->load->view('admin', $data);
@@ -118,10 +119,16 @@ class Lunit extends CI_Controller {
     }
 
     function newletter() {
-        $emails = $this->db->select('email')->from('email')->group_by('email')->get()->result();
+        $emails = $this->db->select('email')
+                           ->from('email')
+                           ->group_by('email')
+                           ->where('show_status', 1)
+                           ->get()
+                           ->result();
         foreach ($emails as $email) {
             $data['email'][] = $email->email;
         }
+        $data = isset($data) ? $data : '';
         $this->load->view('letter', $data);
     }
 
@@ -137,4 +144,14 @@ class Lunit extends CI_Controller {
 
     }
 
+	function delMail() {
+		$address = $this->input->post('mail');
+        $this->db->where('email', $address);
+        $this->db->update('email', array('show_status' => 0));
+		echo $address;
+	}
+
+    function upload() {
+        $this->load->view('upload/upload');
+    }
 }

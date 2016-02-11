@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <meta charset="UTF-8">
@@ -59,11 +54,34 @@ and open the template in the editor.
 
                 });
             }
+			
+			function deleteMail() {
+                var delMail = $('#delete_mail').val();
+                var сonfirm = confirm("Вы уверены что хотите удалить email?");
+                if (сonfirm == true) {
+                    var url = "/index.php/admin/lunit/delMail/";
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: 'mail=' + delMail,
+                        beforeSend: function () {
+                            $('#results').html("<img src='/css/images/loader.GIF' />");
+                        },
+                        success: function (data) {
+                            location.reload();
+                            $('#results').html(data+' удалён из базы адресов');
+                        },
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText + '|\n' + status + '|\n' + error);
+                        }
+                    });
+                }
+            }
         </script>
     </head>
     <body><div class="messagel">
-            <div>  <input type="text" placeholder="Subject" id="subj"/> </div>
-            <div>  <textarea cols="50" rows="10" placeholder="Put your message" id="mess"></textarea> </div>
+            <div>  <input type="text" placeholder="Тема" id="subj"/> </div>
+            <div>  <textarea cols="50" rows="10" placeholder="Введите текст" id="mess"></textarea> </div>
         </div>
         <div id="contentList">
 
@@ -78,20 +96,35 @@ and open the template in the editor.
                 </select>
             </div>
             <div id="buttonsList">
-                <button onclick="copySel()">>>></button><br/>
-                <button onclick="move('right', 'left')">></button><br/>
+                <button onclick="copySel()"> >>> </button><br/>
+                <button onclick="move('right', 'left')"> > </button><br/>
 
-                <button onclick="move('left', 'right')"><</button><br/>
-                <button onclick="copyDown()"><<<</button>
+                <button onclick="move('left', 'right')"> < </button><br/>
+                <button onclick="copyDown()"> <<< </button>
 
             </div>
             <div>
                 <select  id="right_list" multiple size="10" style="width: 150px;"></select>
             </div>
             <div class="sendMess"><button onclick="sendMessage()">Send</button><br/></div>
+			
         </div>
         <div id="results"></div>
-
-
+		<div class="cl"></div>
+		<div class="delMail">
+			<h2>Удаление адреса из базы</h2>
+			<select id="delete_mail">
+				<?php
+				foreach ($email as $opt) {
+				   echo '<option value="' . $opt . '">' . $opt . '</option>';
+				}
+				?>
+			</select>
+			<button onclick="deleteMail()">Удалить</button>
+		</div>
+		<br><br>
+		<div class="delMail">
+			<a href="/admin">Вернуться на главную страницу админки</a>
+		</div>
     </body>
 </html>

@@ -67,7 +67,7 @@ class Main1 extends CI_Model {
     public function get_video_links() {
         $videos = $this->get_video();
         foreach ($videos['video'] as $video) {
-            $link[] = 'http://admin.brightcove.com/viewer/us20150903.1327/BrightcoveBootloader.swf?playerID=2522850455001&playerKey=AQ~~%2CAAACSBmEp-k~%2Ck6M0BLQIXJ_fOxXUjJd4CUhd7yHzmz9-&%40videoPlayer=' . $video . '&autoStart=&bgcolor=%23FFFFFF&debuggerID=&dynamicStreaming=true&flashID=myExperience_3635a929d2c34bc4b58ac66f8fd7d8db&height=400&htmlFallback=true&includeAPI=true&isUI=true&isVid=true&originalTemplateReadyHandler=BCL.onTemplateReady&startTime=1449444235660&templateErrorHandler=BCL.onPlayerError&templateLoadHandler=BCL.onTemplateLoad&templateReadyHandler=brightcove%5B%22templateReadyHandlermyExperience_3635a929d2c34bc4b58ac66f8fd7d8db%22%5D&width=210&wmode=transparent';
+            $link[] = 'http://admin.brightcove.com/viewer/us20150903.1327/BrightcoveBootloader.swf?playerID=2522850455001&playerKey=AQ~~%2CAAACSBmEp-k~%2Ck6M0BLQIXJ_fOxXUjJd4CUhd7yHzmz9-&%40videoPlayer=' . $video . '&autoStart=false&bgcolor=%23FFFFFF&debuggerID=&dynamicStreaming=true&flashID=myExperience_3635a929d2c34bc4b58ac66f8fd7d8db&height=400&htmlFallback=true&includeAPI=true&isUI=true&isVid=true&originalTemplateReadyHandler=BCL.onTemplateReady&startTime=1449444235660&templateErrorHandler=BCL.onPlayerError&templateLoadHandler=BCL.onTemplateLoad&templateReadyHandler=brightcove%5B%22templateReadyHandlermyExperience_3635a929d2c34bc4b58ac66f8fd7d8db%22%5D&width=210&wmode=transparent';
         }
         return $link;
     }
